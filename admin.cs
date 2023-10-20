@@ -11,10 +11,10 @@ using System.Windows.Forms;
 #endregion
 namespace staff_id_tracker
 {
-    public partial class admin : Form
+    public partial class Admin : Form
     {
         #region Initialisation
-        public admin()
+        public Admin()
         {
             InitializeComponent();
         }
