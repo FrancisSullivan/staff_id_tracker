@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO; // Required for file operations
 #endregion
 namespace staff_id_tracker
 {
@@ -17,22 +18,57 @@ namespace staff_id_tracker
         public General()
         {
             InitializeComponent();
+            LoadDictionary();
         }
         #endregion
         #region 4.1 Dictionary Data Structure
         /*
         Create a Dictionary data structure with a TKey of type integer and a TValue of type string, name the new data structure “MasterFile”.
         */
+        public static Dictionary<int, string> MasterFile = new Dictionary<int, string>();
         #endregion
         #region 4.2 Load Dictionary Data from File
         /*
         Create a method that will read the data from the .csv file into the Dictionary data structure when the GUI loads.
         */
+        private void LoadDictionary()
+        {
+            // Clear the dictionary of any existing data.
+            MasterFile.Clear();
+            // Set file path of .csv file that the data will be loaded from.
+            string filePath = "MalinStaffNamesV2.csv";
+            // Read the .csv file, take each line of the file and place it as a seperate string within a string array.
+            string[] lines = File.ReadAllLines(filePath);
+            // Loop though each index of the string array.
+            foreach (string line in lines)
+            {
+                // Split each index into two strings, along the comma, place them within another string array.
+                string[] splitLine = line.Split(',');
+                // Parse the "Staff ID" from string to int out of the first index of the string array.
+                int staffID = int.Parse(splitLine[0]);
+                // Extract the Staff Name out of the second index.
+                string staffName = splitLine[1];
+                // Add the values to the dictionary.
+                MasterFile.Add(staffID, staffName);
+            }
+            LoadListBoxRawData();
+        }
         #endregion
         #region 4.3 Display Dictionary Data
         /*
         Create a method to display the Dictionary data into a non-selectable display only list box (ie read only).
         */
+        private void LoadListBoxRawData() 
+        { 
+            // Clear list box.
+            listBoxRawData.Items.Clear();
+            // Loop though each entry of the dictionary.
+            foreach (var entry in MasterFile)
+            {
+                // Add the entry to the the list box.
+                listBoxRawData.Items.Add(entry);
+            }
+        }
         #endregion
         #region 4.4 Filter Staff Name
         /*
