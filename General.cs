@@ -13,6 +13,8 @@ using System.IO; // Required for file operations
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.VisualBasic;
+using System.Reflection.Metadata;
 #endregion
 namespace staff_id_tracker
 {
@@ -84,13 +86,13 @@ namespace staff_id_tracker
         {
             // Clear existing list box data.
             listBoxFilteredData.Items.Clear();
-            // Extract staff name from text box.
-            string staffNameTextBox = textBoxStaffName.Text;
+            // Extract staff name from text box, convert to lower case.
+            string staffNameTextBox = textBoxStaffName.Text.ToLower();
             // Loop though each entry of the dictionary.
             foreach (var entry in MasterFile)
             {
-                // staff name from the dictionary entry.
-                string staffNameEntry = entry.Value;
+                // staff name from the dictionary entry, convert to lower case.
+                string staffNameEntry = entry.Value.ToLower();
                 // Check for a match.
                 if (staffNameEntry.Contains(staffNameTextBox))
                 {
@@ -125,8 +127,6 @@ namespace staff_id_tracker
                 }
             }
         }
-        // KeyPress event.
-        private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e) { FilterStaffID(); }
         #endregion
         #region 4.6 Cear and Focus: Staff Name
         /*
@@ -152,6 +152,55 @@ namespace staff_id_tracker
         */
         #endregion
         #region Keypress Filtering
+        // Timer for text input.
+        Stopwatch sw = new Stopwatch();
+        #region Staff ID
+        // KeyPress event: Staff ID text box.
+        private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Block unwanted characters.
+            FilterKeypressesStaffID(sender, e, textBoxStaffID);
+            // Only if character is legit.
+            if (e.Handled == false)
+            {
+                // Search for item.
+                SearchDelayStaffID();
+            }
+        }
+        // Search Delay: Staff ID.
+        async Task SearchDelayStaffID()
+        {
+            sw.Restart();
+            int delayTime = 500;
+            await Task.Delay(delayTime);
+            if (sw.ElapsedMilliseconds >= delayTime) { FilterStaffID(); }
+        }
+        // Block unwanted characters: Staff ID text box.
+        private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
+        {
+            /*
+            Blocks all key entries except:
+                "\d"    numeric characters
+                "\b"    backspace and delete
+            */
+            if (!Regex.IsMatch(e.KeyChar.ToString(), @"[\d\b]"))
+                e.Handled = true;
+            // Disallow the use of the backspace in the first index of the text box.
+            if (e.KeyChar == '\b' && textBox.SelectionStart == 0)
+                e.Handled = true;
+        }
+        #endregion
+        #region Staff Name
+        // KeyPress event: Staff Name.
+        private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            FilterKeypressesStaffName(sender, e, textBoxStaffName);
+            if (e.Handled == false)
+            {
+                TimerAsyncName();
+            }
+        }
+        // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
         {
             /*
@@ -166,42 +215,22 @@ namespace staff_id_tracker
             // Disallow the use of the space in the first index of the text box.
             if (e.KeyChar == ' ' && textBox.SelectionStart == 0)
                 e.Handled = true;
+            // Disallow the use of the backspace in the first index of the text box.
+            if (e.KeyChar == '\b' && textBox.SelectionStart == 0)
+                e.Handled = true;
             // Allow only one space within the text box.
             if (e.KeyChar == ' ' && textBox.Text.Contains(" "))
                 e.Handled = true;
         }
-        // Timer for text input.
-        Stopwatch sw = new Stopwatch();
-        // KeyPress event.
-        private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            FilterKeypressesStaffName(sender, e, textBoxStaffName);
-            TimerAsync();
-        }
-        async Task TimerAsync()
+        // Search Delay: Staff Name.
+        async Task TimerAsyncName()
         {
             sw.Restart();
             int delayTime = 500;
             await Task.Delay(delayTime);
             if (sw.ElapsedMilliseconds >= delayTime) { FilterStaffName(); }
         }
-
-        //private void FilterKeypresses(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
-        //{
-        //    // Blocks all key entries except:
-        //    // "\d" numeric characters
-        //    // "."  decimal point
-        //    // "\b" backspace and delete
-        //    // "-"  negative symbol
-        //    if (!Regex.IsMatch(e.KeyChar.ToString(), @"[\d.\b-]"))
-        //        e.Handled = true;
-        //    // Allow only one decimal point within the text box.
-        //    if (e.KeyChar == '.' && textBox.Text.Contains("."))
-        //        e.Handled = true;
-        //    // Restrict the use of the negative sign to the first index of the text box.
-        //    if (e.KeyChar == '-' && textBox.SelectionStart != 0)
-        //        e.Handled = true;
-        //}
+        #endregion
         #endregion
         #region Clipboard
 
