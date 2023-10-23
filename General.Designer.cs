@@ -66,9 +66,9 @@
             // statusStrip
             // 
             statusStrip.ImageScalingSize = new Size(32, 32);
-            statusStrip.Location = new Point(0, 769);
+            statusStrip.Location = new Point(0, 785);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(1241, 38);
+            statusStrip.Size = new Size(1241, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
             // 
@@ -92,6 +92,7 @@
             textBoxStaffName.Name = "textBoxStaffName";
             textBoxStaffName.Size = new Size(382, 39);
             textBoxStaffName.TabIndex = 4;
+            textBoxStaffName.KeyPress += textBoxStaffName_KeyPress;
             // 
             // textBoxStaffID
             // 
@@ -99,6 +100,7 @@
             textBoxStaffID.Name = "textBoxStaffID";
             textBoxStaffID.Size = new Size(382, 39);
             textBoxStaffID.TabIndex = 3;
+            textBoxStaffID.KeyPress += textBoxStaffID_KeyPress;
             // 
             // labelStaffName
             // 
