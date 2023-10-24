@@ -33,7 +33,7 @@ namespace staff_id_tracker
         */
         public static Dictionary<int, string> MasterFile = new Dictionary<int, string>();
         #endregion
-        #region 4.2 Load Dictionary Data from File
+        #region 4.2 Load Data from File to Dictionary
         /*
         Create a method that will read the data from the .csv file into the Dictionary data structure when the GUI loads.
         */
@@ -69,12 +69,15 @@ namespace staff_id_tracker
         {
             // Clear existing list box data.
             listBoxRawData.Items.Clear();
+            List<string> rawList = new List<string>();
             // Loop though each entry of the dictionary.
             foreach (var entry in MasterFile)
             {
-                // Add entry to the list box.
-                listBoxRawData.Items.Add(entry);
+                // Add entry to list.
+                rawList.Add(entry.ToString());
             }
+            // Add list to list box in one go.
+            listBoxRawData.DataSource = rawList;
         }
         #endregion
         #region 4.4 Filter Staff Name
@@ -84,22 +87,24 @@ namespace staff_id_tracker
         */
         private void FilterStaffName()
         {
-            // Clear existing list box data.
-            listBoxFilteredData.Items.Clear();
+            // List to store filtered dictionary entries as strings.
+            List<string> filteredList = new List<string>();
             // Extract staff name from text box, convert to lower case.
             string staffNameTextBox = textBoxStaffName.Text.ToLower();
             // Loop though each entry of the dictionary.
             foreach (var entry in MasterFile)
             {
-                // staff name from the dictionary entry, convert to lower case.
+                // Staff name from the dictionary entry, convert to lower case.
                 string staffNameEntry = entry.Value.ToLower();
                 // Check for a match.
                 if (staffNameEntry.Contains(staffNameTextBox))
                 {
                     // Add entry to the list box.
-                    listBoxFilteredData.Items.Add(entry);
+                    filteredList.Add(entry.ToString());
                 }
             }
+            // Add list to list box in one go.
+            listBoxFilteredData.DataSource = filteredList;
         }
 
         #endregion
@@ -110,8 +115,8 @@ namespace staff_id_tracker
         */
         private void FilterStaffID()
         {
-            // Clear existing list box data.
-            listBoxFilteredData.Items.Clear();
+            // List to store filtered dictionary entries as strings.
+            List<string> filteredList = new List<string>();
             // Extract "Staff ID" from text box.
             string staffIDTextBox = textBoxStaffID.Text;
             // Loop though each entry of the dictionary.
@@ -122,27 +127,32 @@ namespace staff_id_tracker
                 // Check for a match.
                 if (staffIDEntry.Contains(staffIDTextBox))
                 {
-                    // Add entry to the list box.
-                    listBoxFilteredData.Items.Add(entry);
+                    // Add entry to the list.
+                    filteredList.Add(entry.ToString());
                 }
             }
+            // Add list to list box in one go.
+            listBoxFilteredData.DataSource = filteredList;
         }
         #endregion
-        #region 4.6 Cear and Focus: Staff Name
+        #region 4.6 Clear and Focus: Staff Name
         /*
         Create a method for the Staff Name text box which will clear the contents and place the focus into the Staff Name text box. Utilise a keyboard shortcut.
         */
+
         #endregion
-        #region 4.7 Cear and Focus: Staff ID
+        #region 4.7 Clear and Focus: Staff ID
         /*
         Create a method for the Staff ID text box which will clear the contents and place the focus into the text box. Utilise a keyboard shortcut.
         */
+
         #endregion
         #region 4.8 Display Selected Staff
         /*
         Create a method for the filtered and selectable list box which will populate the two text boxes when a staff record is selected. 
         Utilise the Tab and keyboard keys.
         */
+
         #endregion
         #region 4.9 Open Admin Form
         /*
@@ -150,30 +160,18 @@ namespace staff_id_tracker
         Name to the Admin GUI for Update and Delete purposes and is opened as modal. Create modified logic to open the Admin GUI to Create a new user when the 
         Staff ID 77 and the Staff Name is empty. Read the appropriate criteria in the Admin GUI for further information.
         */
+
         #endregion
         #region Keypress Filtering
-        // Timer for text input.
-        Stopwatch sw = new Stopwatch();
         #region Staff ID
         // KeyPress event: Staff ID text box.
         private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Block unwanted characters.
             FilterKeypressesStaffID(sender, e, textBoxStaffID);
-            // Only if character is legit.
+            // Only if character input is legit.
             if (e.Handled == false)
-            {
-                // Search for item.
-                SearchDelayStaffID();
-            }
-        }
-        // Search Delay: Staff ID.
-        async Task SearchDelayStaffID()
-        {
-            sw.Restart();
-            int delayTime = 500;
-            await Task.Delay(delayTime);
-            if (sw.ElapsedMilliseconds >= delayTime) { FilterStaffID(); }
+                FilterStaffID();
         }
         // Block unwanted characters: Staff ID text box.
         private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -195,10 +193,8 @@ namespace staff_id_tracker
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
         {
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
-            if (e.Handled == false)
-            {
-                TimerAsyncName();
-            }
+            if (e.Handled == false) { FilterStaffName(); }
+                //TimerAsyncName();
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -221,14 +217,6 @@ namespace staff_id_tracker
             // Allow only one space within the text box.
             if (e.KeyChar == ' ' && textBox.Text.Contains(" "))
                 e.Handled = true;
-        }
-        // Search Delay: Staff Name.
-        async Task TimerAsyncName()
-        {
-            sw.Restart();
-            int delayTime = 500;
-            await Task.Delay(delayTime);
-            if (sw.ElapsedMilliseconds >= delayTime) { FilterStaffName(); }
         }
         #endregion
         #endregion

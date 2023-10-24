@@ -147,6 +147,7 @@
             textBoxInstructions.ReadOnly = true;
             textBoxInstructions.Size = new Size(391, 713);
             textBoxInstructions.TabIndex = 0;
+            textBoxInstructions.TabStop = false;
             textBoxInstructions.Text = "Instruction 1\r\nInstruction 2\r\n";
             // 
             // General
