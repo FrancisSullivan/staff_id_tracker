@@ -193,7 +193,6 @@ namespace staff_id_tracker
                         break;
                 }
             }
-
         }
         #endregion
         #region Staff ID
@@ -226,8 +225,8 @@ namespace staff_id_tracker
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
         {
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
-            if (e.Handled == false) { FilterDisplayStaffName(); }
-            //TimerAsyncName();
+            if (e.Handled == false)
+                FilterDisplayStaffName();
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
