@@ -60,6 +60,7 @@
             listBoxRawData.ItemHeight = 32;
             listBoxRawData.Location = new Point(6, 40);
             listBoxRawData.Name = "listBoxRawData";
+            listBoxRawData.SelectionMode = SelectionMode.None;
             listBoxRawData.Size = new Size(388, 708);
             listBoxRawData.TabIndex = 0;
             // 
@@ -91,7 +92,7 @@
             textBoxStaffName.Location = new Point(6, 147);
             textBoxStaffName.Name = "textBoxStaffName";
             textBoxStaffName.Size = new Size(382, 39);
-            textBoxStaffName.TabIndex = 4;
+            textBoxStaffName.TabIndex = 2;
             textBoxStaffName.KeyPress += textBoxStaffName_KeyPress;
             // 
             // textBoxStaffID
@@ -99,7 +100,7 @@
             textBoxStaffID.Location = new Point(6, 70);
             textBoxStaffID.Name = "textBoxStaffID";
             textBoxStaffID.Size = new Size(382, 39);
-            textBoxStaffID.TabIndex = 3;
+            textBoxStaffID.TabIndex = 1;
             textBoxStaffID.KeyPress += textBoxStaffID_KeyPress;
             // 
             // labelStaffName
@@ -127,7 +128,7 @@
             listBoxFilteredData.Location = new Point(6, 200);
             listBoxFilteredData.Name = "listBoxFilteredData";
             listBoxFilteredData.Size = new Size(382, 548);
-            listBoxFilteredData.TabIndex = 0;
+            listBoxFilteredData.TabIndex = 3;
             // 
             // groupBoxInstructions
             // 
@@ -159,8 +160,10 @@
             Controls.Add(groupBoxFilteredData);
             Controls.Add(statusStrip);
             Controls.Add(groupBoxRawData);
+            KeyPreview = true;
             Name = "General";
             Text = "General";
+            KeyDown += General_KeyDown;
             groupBoxRawData.ResumeLayout(false);
             groupBoxFilteredData.ResumeLayout(false);
             groupBoxFilteredData.PerformLayout();

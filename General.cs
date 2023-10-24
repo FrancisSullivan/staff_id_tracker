@@ -80,7 +80,7 @@ namespace staff_id_tracker
             listBoxRawData.DataSource = rawList;
         }
         #endregion
-        #region 4.4 Filter Staff Name
+        #region 4.4 Filter and Display: Staff Name
         /*
         Create a method to filter the Staff Name data from the Dictionary into a second filtered and selectable list box. 
         This method must use a text box input and update as each character is entered. The list box must reflect the filtered data in real time.
@@ -106,9 +106,8 @@ namespace staff_id_tracker
             // Add list to list box in one go.
             listBoxFilteredData.DataSource = filteredList;
         }
-
         #endregion
-        #region 4.5 Filter Staff ID
+        #region 4.5 Filter and Display: Staff ID
         /*
         Create a method to filter the Staff ID data from the Dictionary into the second filtered and selectable list box. 
         This method must use a text box input and update as each number is entered. The list box must reflect the filtered data in real time.
@@ -139,13 +138,23 @@ namespace staff_id_tracker
         /*
         Create a method for the Staff Name text box which will clear the contents and place the focus into the Staff Name text box. Utilise a keyboard shortcut.
         */
-
+        private void ClearFocusStaffName()
+        {
+            textBoxStaffName.Clear();
+            textBoxStaffName.Focus();
+            FilterStaffName();
+        }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
         /*
         Create a method for the Staff ID text box which will clear the contents and place the focus into the text box. Utilise a keyboard shortcut.
         */
-
+        private void ClearFocusStaffID()
+        {
+            textBoxStaffID.Clear();
+            textBoxStaffID.Focus();
+            FilterStaffID();
+        }
         #endregion
         #region 4.8 Display Selected Staff
         /*
@@ -163,6 +172,30 @@ namespace staff_id_tracker
 
         #endregion
         #region Keypress Filtering
+        #region KeyDown Shortcuts
+        // KeyDown Shortcuts.
+        // "KeyPreview" must be set to true for this to work.
+        private void General_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Checks for the "alt" key.
+            if (e.Modifiers == Keys.Alt)
+            {
+                // Key other than "alt" that is held down.
+                switch (e.KeyCode)
+                {
+                    // "I" key: Refreshes ID text box.
+                    case Keys.I:
+                        ClearFocusStaffID();
+                        break;
+                    // "N" key: Refreshes Name text box.
+                    case Keys.N:
+                        ClearFocusStaffName();
+                        break;
+                }
+            }
+
+        }
+        #endregion
         #region Staff ID
         // KeyPress event: Staff ID text box.
         private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
@@ -194,7 +227,7 @@ namespace staff_id_tracker
         {
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
             if (e.Handled == false) { FilterStaffName(); }
-                //TimerAsyncName();
+            //TimerAsyncName();
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
