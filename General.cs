@@ -58,14 +58,14 @@ namespace staff_id_tracker
                 MasterFile.Add(staffID, staffName);
             }
             // Update the raw data list box.
-            UpdateListBoxRawData();
+            DisplayListBoxRawData();
         }
         #endregion
         #region 4.3 Display Raw Dictionary Data
         /*
         Create a method to display the Dictionary data into a non-selectable display only list box (ie read only).
         */
-        private void UpdateListBoxRawData()
+        private void DisplayListBoxRawData()
         {
             // Clear existing list box data.
             listBoxRawData.Items.Clear();
@@ -85,7 +85,7 @@ namespace staff_id_tracker
         Create a method to filter the Staff Name data from the Dictionary into a second filtered and selectable list box. 
         This method must use a text box input and update as each character is entered. The list box must reflect the filtered data in real time.
         */
-        private void FilterStaffName()
+        private void FilterDisplayStaffName()
         {
             // List to store filtered dictionary entries as strings.
             List<string> filteredList = new List<string>();
@@ -112,7 +112,7 @@ namespace staff_id_tracker
         Create a method to filter the Staff ID data from the Dictionary into the second filtered and selectable list box. 
         This method must use a text box input and update as each number is entered. The list box must reflect the filtered data in real time.
         */
-        private void FilterStaffID()
+        private void FilterDisplayStaffID()
         {
             // List to store filtered dictionary entries as strings.
             List<string> filteredList = new List<string>();
@@ -142,7 +142,7 @@ namespace staff_id_tracker
         {
             textBoxStaffName.Clear();
             textBoxStaffName.Focus();
-            FilterStaffName();
+            FilterDisplayStaffName();
         }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
@@ -153,7 +153,7 @@ namespace staff_id_tracker
         {
             textBoxStaffID.Clear();
             textBoxStaffID.Focus();
-            FilterStaffID();
+            FilterDisplayStaffID();
         }
         #endregion
         #region 4.8 Display Selected Staff
@@ -204,7 +204,7 @@ namespace staff_id_tracker
             FilterKeypressesStaffID(sender, e, textBoxStaffID);
             // Only if character input is legit.
             if (e.Handled == false)
-                FilterStaffID();
+                FilterDisplayStaffID();
         }
         // Block unwanted characters: Staff ID text box.
         private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -226,7 +226,7 @@ namespace staff_id_tracker
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
         {
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
-            if (e.Handled == false) { FilterStaffName(); }
+            if (e.Handled == false) { FilterDisplayStaffName(); }
             //TimerAsyncName();
         }
         // Block unwanted characters: Staff Name.
