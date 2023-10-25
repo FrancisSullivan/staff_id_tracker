@@ -208,29 +208,21 @@ namespace staff_id_tracker
             if (e.KeyCode == Keys.Enter)
             {
                 listBoxFilteredData.Focus();
-                string line = listBoxFilteredData.SelectedItem.ToString();
-                string[] splitLine = line.Split(',');
-                string staffID = splitLine[0].TrimStart('[');
-                string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
-                textBoxStaffID.Text = staffID;
-                textBoxStaffName.Text = staffName;
-                FilterDisplayStaffID();
+                DisplaySelectedItem();
 
             }
         }
         #endregion
-        #region Staff ID
+        #region KeyPress: Staff ID Text Box 
         // KeyPress event: Staff ID text box.
         private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Block unwanted characters.
             FilterKeypressesStaffID(sender, e, textBoxStaffID);
             // Only if character input is legit.
-            if (e.Handled == false)
-            {
-                FilterDisplayStaffID();
-                //textBoxStaffName.Clear();
-            }
+            if (e.Handled == false) FilterDisplayStaffID();
+            if (listBoxFilteredData.Focused == true) DisplaySelectedItem();
+            else textBoxStaffName.Clear();
         }
         // Block unwanted characters: Staff ID text box.
         private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -247,16 +239,14 @@ namespace staff_id_tracker
                 e.Handled = true;
         }
         #endregion
-        #region Staff Name
+        #region KeyPress: Staff Name Text Box
         // KeyPress event: Staff Name.
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
         {
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
-            if (e.Handled == false)
-            {
-                FilterDisplayStaffName();
-                //textBoxStaffID.Clear();
-            }
+            if (e.Handled == false) FilterDisplayStaffName();
+            if (listBoxFilteredData.Focused == true) DisplaySelectedItem();
+            else textBoxStaffID.Clear();
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -283,7 +273,16 @@ namespace staff_id_tracker
         #endregion
         #endregion
         #region Clipboard
-
+        private void DisplaySelectedItem()
+        {
+            string line = listBoxFilteredData.SelectedItem.ToString();
+            string[] splitLine = line.Split(',');
+            string staffID = splitLine[0].TrimStart('[');
+            string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
+            textBoxStaffID.Text = staffID;
+            textBoxStaffName.Text = staffName;
+            FilterDisplayStaffID();
+        }
         #endregion
     }
 }

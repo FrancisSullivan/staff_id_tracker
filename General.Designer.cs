@@ -149,7 +149,7 @@
             textBoxInstructions.Size = new Size(391, 713);
             textBoxInstructions.TabIndex = 0;
             textBoxInstructions.TabStop = false;
-            textBoxInstructions.Text = "Instruction 1\r\nInstruction 2\r\n";
+            textBoxInstructions.Text = "Alt + I:   Clear and Foucs Staff ID\r\nAlt + N: Clear and Foucs Staff \r\n             Name\r\nEnter:    Add Selected";
             // 
             // General
             // 
