@@ -47,9 +47,9 @@
             // groupBoxRawData
             // 
             groupBoxRawData.Controls.Add(listBoxRawData);
-            groupBoxRawData.Location = new Point(13, 13);
+            groupBoxRawData.Location = new Point(13, 221);
             groupBoxRawData.Name = "groupBoxRawData";
-            groupBoxRawData.Size = new Size(400, 754);
+            groupBoxRawData.Size = new Size(400, 546);
             groupBoxRawData.TabIndex = 0;
             groupBoxRawData.TabStop = false;
             groupBoxRawData.Text = "Raw Data";
@@ -58,10 +58,10 @@
             // 
             listBoxRawData.FormattingEnabled = true;
             listBoxRawData.ItemHeight = 32;
-            listBoxRawData.Location = new Point(6, 40);
+            listBoxRawData.Location = new Point(12, 32);
             listBoxRawData.Name = "listBoxRawData";
             listBoxRawData.SelectionMode = SelectionMode.None;
-            listBoxRawData.Size = new Size(388, 708);
+            listBoxRawData.Size = new Size(388, 484);
             listBoxRawData.TabIndex = 0;
             // 
             // statusStrip
@@ -69,7 +69,7 @@
             statusStrip.ImageScalingSize = new Size(32, 32);
             statusStrip.Location = new Point(0, 785);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(1241, 22);
+            statusStrip.Size = new Size(835, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
             // 
@@ -125,17 +125,17 @@
             // 
             listBoxFilteredData.FormattingEnabled = true;
             listBoxFilteredData.ItemHeight = 32;
-            listBoxFilteredData.Location = new Point(6, 200);
+            listBoxFilteredData.Location = new Point(6, 232);
             listBoxFilteredData.Name = "listBoxFilteredData";
-            listBoxFilteredData.Size = new Size(382, 548);
+            listBoxFilteredData.Size = new Size(382, 484);
             listBoxFilteredData.TabIndex = 3;
             // 
             // groupBoxInstructions
             // 
             groupBoxInstructions.Controls.Add(textBoxInstructions);
-            groupBoxInstructions.Location = new Point(825, 12);
+            groupBoxInstructions.Location = new Point(19, 12);
             groupBoxInstructions.Name = "groupBoxInstructions";
-            groupBoxInstructions.Size = new Size(400, 754);
+            groupBoxInstructions.Size = new Size(400, 208);
             groupBoxInstructions.TabIndex = 2;
             groupBoxInstructions.TabStop = false;
             groupBoxInstructions.Text = "Instructions";
@@ -146,16 +146,16 @@
             textBoxInstructions.Multiline = true;
             textBoxInstructions.Name = "textBoxInstructions";
             textBoxInstructions.ReadOnly = true;
-            textBoxInstructions.Size = new Size(391, 713);
+            textBoxInstructions.Size = new Size(391, 168);
             textBoxInstructions.TabIndex = 0;
             textBoxInstructions.TabStop = false;
-            textBoxInstructions.Text = "Alt + I:   Clear and Foucs Staff ID\r\nAlt + N: Clear and Foucs Staff \r\n             Name\r\nEnter:    Add Selected";
+            textBoxInstructions.Text = "Alt + I:   Clear and Foucs Staff ID\r\nAlt + N: Clear and Foucs Staff \r\n             Name\r\nEnter:    Add Selected\r\nAlt + A: Open Admin form";
             // 
             // General
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1241, 807);
+            ClientSize = new Size(835, 807);
             Controls.Add(groupBoxInstructions);
             Controls.Add(groupBoxFilteredData);
             Controls.Add(statusStrip);

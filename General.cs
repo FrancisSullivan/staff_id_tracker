@@ -219,9 +219,12 @@ namespace staff_id_tracker
                         break;
                 }
             }
+            // Checks for "Enter" key.
             if (e.KeyCode == Keys.Enter)
             {
+                // Focuses to the filted data list box.
                 listBoxFilteredData.Focus();
+                // Displays selected item.
                 DisplaySelectedItem();
             }
         }
