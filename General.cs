@@ -140,9 +140,14 @@ namespace staff_id_tracker
         */
         private void ClearFocusStaffName()
         {
+            // Clear the "Staff ID" text box.
+            textBoxStaffID.Clear();
+            // Clear the "Staff Name" text box.
             textBoxStaffName.Clear();
+            // Focus the cursor to the "Staff Name" text box.
             textBoxStaffName.Focus();
-            //FilterDisplayStaffName();
+            // Reload the filtered list box to display all items.
+            FilterDisplayStaffName();
         }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
@@ -151,9 +156,14 @@ namespace staff_id_tracker
         */
         private void ClearFocusStaffID()
         {
+            // Clear the "Staff ID" text box.
             textBoxStaffID.Clear();
+            // Clear the "Staff Name" text box.
+            textBoxStaffName.Clear();
+            // Focus the cursor to the "Staff Name" text box.
             textBoxStaffID.Focus();
-            //FilterDisplayStaffID();
+            // Reload the filtered list box to display all items.
+            FilterDisplayStaffID();
         }
         #endregion
         #region 4.8 Display Selected Staff
@@ -161,19 +171,23 @@ namespace staff_id_tracker
         Create a method for the filtered and selectable list box which will populate the two text boxes when a staff record is selected. 
         Utilise the Tab and keyboard keys.
         */
-        //private void listBoxFilteredData_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.KeyCode == Keys.Enter)
-        //    {
-        //        string line = listBoxFilteredData.SelectedItem.ToString();
-        //        string[] splitLine = line.Split(',');
-        //        string staffID = splitLine[0].TrimStart('[');
-        //        string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
-        //        textBoxStaffID.Text = staffID;
-        //        textBoxStaffName.Text = staffName;
-
-        //    }
-        //}
+        private void DisplaySelectedItem()
+        {
+            // Take the selected item in the list box and convert it to a string.
+            string line = listBoxFilteredData.SelectedItem.ToString();
+            // Split the string along the comma, placing each side within a string array.
+            string[] splitLine = line.Split(',');
+            // Extract the "Staff ID" from the array, trim the square bracket from the start of the string.
+            string staffID = splitLine[0].TrimStart('[');
+            // Extract the "Staff ID" from the array, trim the square bracket and blak space from the end of the string.
+            string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
+            // Populate the "Staff ID" text box.
+            textBoxStaffID.Text = staffID;
+            // Populate the "Staff Name" text box.
+            textBoxStaffName.Text = staffName;
+            // Reload the filtered items list box to display only the selected item.
+            FilterDisplayStaffID();
+        }
         #endregion
         #region 4.9 Open Admin Form
         /*
@@ -184,8 +198,8 @@ namespace staff_id_tracker
 
         #endregion
         #region Keypress Filtering
-        #region KeyDown Shortcuts
-        // KeyDown Shortcuts.
+        #region KeyDown: Multi-key Shortcuts
+        // KeyDown: Multi-key Shortcuts.
         // "KeyPreview" must be set to true for this to work.
         private void General_KeyDown(object sender, KeyEventArgs e)
         {
@@ -209,19 +223,20 @@ namespace staff_id_tracker
             {
                 listBoxFilteredData.Focus();
                 DisplaySelectedItem();
-
             }
         }
         #endregion
-        #region KeyPress: Staff ID Text Box 
+        #region KeyPress: Staff ID Text Box
         // KeyPress event: Staff ID text box.
         private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Block unwanted characters.
             FilterKeypressesStaffID(sender, e, textBoxStaffID);
-            // Only if character input is legit.
+            // Only if character input is accepted.
             if (e.Handled == false) FilterDisplayStaffID();
+            // If the "Enter" key is pressed the selected item will be desplayed.
             if (listBoxFilteredData.Focused == true) DisplaySelectedItem();
+            // Clear the "Staff ID" text box.
             else textBoxStaffName.Clear();
         }
         // Block unwanted characters: Staff ID text box.
@@ -243,9 +258,13 @@ namespace staff_id_tracker
         // KeyPress event: Staff Name.
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Block unwanted characters.
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
+            // Only if character input is accepted.
             if (e.Handled == false) FilterDisplayStaffName();
+            // If the "Enter" key is pressed the selected item will be desplayed.
             if (listBoxFilteredData.Focused == true) DisplaySelectedItem();
+            // Clear the "Staff ID" text box.
             else textBoxStaffID.Clear();
         }
         // Block unwanted characters: Staff Name.
@@ -273,16 +292,7 @@ namespace staff_id_tracker
         #endregion
         #endregion
         #region Clipboard
-        private void DisplaySelectedItem()
-        {
-            string line = listBoxFilteredData.SelectedItem.ToString();
-            string[] splitLine = line.Split(',');
-            string staffID = splitLine[0].TrimStart('[');
-            string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
-            textBoxStaffID.Text = staffID;
-            textBoxStaffName.Text = staffName;
-            FilterDisplayStaffID();
-        }
+
         #endregion
     }
 }
