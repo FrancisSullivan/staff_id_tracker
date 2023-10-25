@@ -142,7 +142,7 @@ namespace staff_id_tracker
         {
             textBoxStaffName.Clear();
             textBoxStaffName.Focus();
-            FilterDisplayStaffName();
+            //FilterDisplayStaffName();
         }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
@@ -153,7 +153,7 @@ namespace staff_id_tracker
         {
             textBoxStaffID.Clear();
             textBoxStaffID.Focus();
-            FilterDisplayStaffID();
+            //FilterDisplayStaffID();
         }
         #endregion
         #region 4.8 Display Selected Staff
@@ -161,7 +161,19 @@ namespace staff_id_tracker
         Create a method for the filtered and selectable list box which will populate the two text boxes when a staff record is selected. 
         Utilise the Tab and keyboard keys.
         */
+        //private void listBoxFilteredData_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyCode == Keys.Enter)
+        //    {
+        //        string line = listBoxFilteredData.SelectedItem.ToString();
+        //        string[] splitLine = line.Split(',');
+        //        string staffID = splitLine[0].TrimStart('[');
+        //        string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
+        //        textBoxStaffID.Text = staffID;
+        //        textBoxStaffName.Text = staffName;
 
+        //    }
+        //}
         #endregion
         #region 4.9 Open Admin Form
         /*
@@ -193,6 +205,18 @@ namespace staff_id_tracker
                         break;
                 }
             }
+            if (e.KeyCode == Keys.Enter)
+            {
+                listBoxFilteredData.Focus();
+                string line = listBoxFilteredData.SelectedItem.ToString();
+                string[] splitLine = line.Split(',');
+                string staffID = splitLine[0].TrimStart('[');
+                string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
+                textBoxStaffID.Text = staffID;
+                textBoxStaffName.Text = staffName;
+                FilterDisplayStaffID();
+
+            }
         }
         #endregion
         #region Staff ID
@@ -203,7 +227,10 @@ namespace staff_id_tracker
             FilterKeypressesStaffID(sender, e, textBoxStaffID);
             // Only if character input is legit.
             if (e.Handled == false)
+            {
                 FilterDisplayStaffID();
+                //textBoxStaffName.Clear();
+            }
         }
         // Block unwanted characters: Staff ID text box.
         private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -226,7 +253,10 @@ namespace staff_id_tracker
         {
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
             if (e.Handled == false)
+            {
                 FilterDisplayStaffName();
+                //textBoxStaffID.Clear();
+            }
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
