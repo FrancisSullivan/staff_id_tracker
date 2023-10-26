@@ -91,6 +91,16 @@ namespace staff_id_tracker
             List<string> filteredList = new List<string>();
             // Extract staff name from text box, convert to lower case.
             string staffNameTextBox = textBoxStaffName.Text.ToLower();
+
+            // Clears filtered list box, causes bug with first letter not searching.
+            //if (string.IsNullOrEmpty(staffNameTextBox))
+            //{
+            //    // Clear the filtered list box.
+            //    List<string> blankList = new List<string>();
+            //    listBoxFilteredData.DataSource = blankList;
+            //    return;
+            //}
+
             // Loop though each entry of the dictionary.
             foreach (var entry in MasterFile)
             {
@@ -146,8 +156,9 @@ namespace staff_id_tracker
             textBoxStaffName.Clear();
             // Focus the cursor to the "Staff Name" text box.
             textBoxStaffName.Focus();
-            // Reload the filtered list box to display all items.
-            FilterDisplayStaffName();
+            // Clear the filtered list box.
+            List<string> blankList = new List<string>();
+            listBoxFilteredData.DataSource = blankList;
         }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
@@ -162,8 +173,9 @@ namespace staff_id_tracker
             textBoxStaffName.Clear();
             // Focus the cursor to the "Staff Name" text box.
             textBoxStaffID.Focus();
-            // Reload the filtered list box to display all items.
-            FilterDisplayStaffID();
+            // Clear the filtered list box.
+            List<string> blankList = new List<string>();
+            listBoxFilteredData.DataSource = blankList;
         }
         #endregion
         #region 4.8 Display Selected Staff
@@ -173,20 +185,23 @@ namespace staff_id_tracker
         */
         private void DisplaySelectedItem()
         {
-            // Take the selected item in the list box and convert it to a string.
-            string line = listBoxFilteredData.SelectedItem.ToString();
-            // Split the string along the comma, placing each side within a string array.
-            string[] splitLine = line.Split(',');
-            // Extract the "Staff ID" from the array, trim the square bracket from the start of the string.
-            string staffID = splitLine[0].TrimStart('[');
-            // Extract the "Staff ID" from the array, trim the square bracket and blak space from the end of the string.
-            string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
-            // Populate the "Staff ID" text box.
-            textBoxStaffID.Text = staffID;
-            // Populate the "Staff Name" text box.
-            textBoxStaffName.Text = staffName;
-            // Reload the filtered items list box to display only the selected item.
-            FilterDisplayStaffID();
+            if (listBoxFilteredData.SelectedItem != null)
+            {
+                // Take the selected item in the list box and convert it to a string.
+                string line = listBoxFilteredData.SelectedItem.ToString();
+                // Split the string along the comma, placing each side within a string array.
+                string[] splitLine = line.Split(',');
+                // Extract the "Staff ID" from the array, trim the square bracket from the start of the string.
+                string staffID = splitLine[0].TrimStart('[');
+                // Extract the "Staff ID" from the array, trim the square bracket and blak space from the end of the string.
+                string staffName = splitLine[1].TrimEnd(']').TrimStart(' ');
+                // Populate the "Staff ID" text box.
+                textBoxStaffID.Text = staffID;
+                // Populate the "Staff Name" text box.
+                textBoxStaffName.Text = staffName;
+                // Reload the filtered items list box to display only the selected item.
+                FilterDisplayStaffID();
+            }
         }
         #endregion
         #region 4.9 Open Admin Form
@@ -204,7 +219,7 @@ namespace staff_id_tracker
         private void General_KeyDown(object sender, KeyEventArgs e)
         {
             // Checks for the "alt" key.
-            if (e.Modifiers == Keys.Alt)
+            if (e.Modifiers == Keys.Control)
             {
                 // Key other than "alt" that is held down.
                 switch (e.KeyCode)
@@ -216,6 +231,14 @@ namespace staff_id_tracker
                     // "N" key: Refreshes Name text box.
                     case Keys.N:
                         ClearFocusStaffName();
+                        break;
+                    // "F" key: Focuses on the "Filtered Data" list box.
+                    case Keys.F:
+                        listBoxFilteredData.Focus();
+                        break;
+                    // "R" key: Focuses on the "Raw Data" list box.
+                    case Keys.R:
+                        listBoxRawData.Focus();
                         break;
                 }
             }
@@ -239,8 +262,14 @@ namespace staff_id_tracker
             if (e.Handled == false) FilterDisplayStaffID();
             // If the "Enter" key is pressed the selected item will be desplayed.
             if (listBoxFilteredData.Focused == true) DisplaySelectedItem();
-            // Clear the "Staff ID" text box.
+            // Clear the "Staff Name" text box.
             else textBoxStaffName.Clear();
+            // Clear the filtered list box if using backspace from index 0 or 1.
+            if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
+            {
+                List<string> blankList = new List<string>();
+                listBoxFilteredData.DataSource = blankList;
+            }
         }
         // Block unwanted characters: Staff ID text box.
         private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -251,9 +280,6 @@ namespace staff_id_tracker
                 "\b"    backspace and delete
             */
             if (!Regex.IsMatch(e.KeyChar.ToString(), @"[\d\b]"))
-                e.Handled = true;
-            // Disallow the use of the backspace in the first index of the text box.
-            if (e.KeyChar == '\b' && textBox.SelectionStart == 0)
                 e.Handled = true;
         }
         #endregion
@@ -269,6 +295,12 @@ namespace staff_id_tracker
             if (listBoxFilteredData.Focused == true) DisplaySelectedItem();
             // Clear the "Staff ID" text box.
             else textBoxStaffID.Clear();
+            // Clear the filtered list box if using backspace from index 0 or 1.
+            if (e.KeyChar == '\b' && (textBoxStaffName.SelectionStart == 0 || textBoxStaffName.SelectionStart == 1))
+            {
+                List<string> blankList = new List<string>();
+                listBoxFilteredData.DataSource = blankList;
+            }
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -284,9 +316,6 @@ namespace staff_id_tracker
                 e.Handled = true;
             // Disallow the use of the space in the first index of the text box.
             if (e.KeyChar == ' ' && textBox.SelectionStart == 0)
-                e.Handled = true;
-            // Disallow the use of the backspace in the first index of the text box.
-            if (e.KeyChar == '\b' && textBox.SelectionStart == 0)
                 e.Handled = true;
             // Allow only one space within the text box.
             if (e.KeyChar == ' ' && textBox.Text.Contains(" "))
