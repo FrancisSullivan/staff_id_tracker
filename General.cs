@@ -202,7 +202,7 @@ namespace staff_id_tracker
 
         #endregion
         #region Keypress Filtering
-        #region KeyDown: Multi-key Shortcuts
+        #region KeyDown Shortcuts
         // KeyDown: Multi-key Shortcuts.
         // "KeyPreview" must be set to true for this to work.
         private void General_KeyDown(object sender, KeyEventArgs e)
@@ -286,8 +286,8 @@ namespace staff_id_tracker
             if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
                 listBoxFilteredData.DataSource = null;
             // Prevents bug where focusing to list box selects item.
-            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count == 1)
-                DisplaySelectedItem();
+            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count >1 && textBoxStaffID.Text != "")
+                FilterDisplayStaffID();
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
