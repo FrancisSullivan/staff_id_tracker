@@ -285,6 +285,9 @@ namespace staff_id_tracker
             // Prevents bug where list box will not clear when focusing on Staff ID text box.
             if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
                 listBoxFilteredData.DataSource = null;
+            // Prevents bug where focusing to list box selects item.
+            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count == 1)
+                DisplaySelectedItem();
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
