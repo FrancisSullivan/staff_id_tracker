@@ -164,8 +164,7 @@ namespace staff_id_tracker
             // Focus the cursor to the "Staff Name" text box.
             textBoxStaffID.Focus();
             // Clear the filtered list box.
-            List<string> blankList = new List<string>();
-            listBoxFilteredData.DataSource = blankList;
+            listBoxFilteredData.DataSource = null;
         }
         #endregion
         #region 4.8 Display Selected Staff
@@ -255,10 +254,7 @@ namespace staff_id_tracker
                 textBoxStaffName.Clear();
             // Clear the filtered list box if using backspace from index 0 or 1.
             if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
-            {
-                List<string> blankList = new List<string>();
-                listBoxFilteredData.DataSource = blankList;
-            }
+                listBoxFilteredData.DataSource = null;
         }
         // Block unwanted characters: Staff ID text box.
         private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
@@ -285,10 +281,10 @@ namespace staff_id_tracker
                 textBoxStaffID.Clear();
             // Clear the filtered list box if using backspace from index 0 or 1.
             if (e.KeyChar == '\b' && (textBoxStaffName.SelectionStart == 0 || textBoxStaffName.SelectionStart == 1))
-            {
-                List<string> blankList = new List<string>();
-                listBoxFilteredData.DataSource = blankList;
-            }
+                listBoxFilteredData.DataSource = null;
+            // Prevents bug where list box will not clear when focusing on Staff ID text box.
+            if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
+                listBoxFilteredData.DataSource = null;
         }
         // Block unwanted characters: Staff Name.
         private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
