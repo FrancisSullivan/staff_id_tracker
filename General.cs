@@ -91,16 +91,6 @@ namespace staff_id_tracker
             List<string> filteredList = new List<string>();
             // Extract staff name from text box, convert to lower case.
             string staffNameTextBox = textBoxStaffName.Text.ToLower();
-
-            // Clears filtered list box, causes bug with first letter not searching.
-            //if (string.IsNullOrEmpty(staffNameTextBox))
-            //{
-            //    // Clear the filtered list box.
-            //    List<string> blankList = new List<string>();
-            //    listBoxFilteredData.DataSource = blankList;
-            //    return;
-            //}
-
             // Loop though each entry of the dictionary.
             foreach (var entry in MasterFile)
             {

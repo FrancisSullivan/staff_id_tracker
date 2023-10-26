@@ -122,22 +122,21 @@
   </metadata>
   <data name="textBoxInstructions.Text" xml:space="preserve">
     <value>Control + I
-- Clear and Foucs Staff ID
+    Focus on Staff ID Text Box
 
 Control + N
-- Clear and Foucs Staff Name
-
-Control + R
-- Focus Raw Data List Box
+    Focus on Staff Name Text Box
 
 Control + F
-- Focus Filtered Data List Box
+    Focus on Filtered Data List Box
 
-Control + A
-- Open Admin form
+Control + R
+    Focus on Raw Data List Box
 
 Enter
--  Add Selected item
-</value>
+    Select Item
+
+Control + A
+    Open Admin Form</value>
   </data>
 </root>
