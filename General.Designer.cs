@@ -53,7 +53,7 @@
             groupBoxRawData.Size = new Size(400, 755);
             groupBoxRawData.TabIndex = 0;
             groupBoxRawData.TabStop = false;
-            groupBoxRawData.Text = "Raw Data";
+            groupBoxRawData.Text = "Unfiltered Data";
             // 
             // listBoxRawData
             // 
@@ -70,7 +70,7 @@
             statusStrip.ImageScalingSize = new Size(32, 32);
             statusStrip.Location = new Point(0, 785);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(1212, 22);
+            statusStrip.Size = new Size(1247, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
             // 
@@ -136,7 +136,7 @@
             groupBoxInstructions.Controls.Add(textBoxInstructions);
             groupBoxInstructions.Location = new Point(825, 12);
             groupBoxInstructions.Name = "groupBoxInstructions";
-            groupBoxInstructions.Size = new Size(380, 754);
+            groupBoxInstructions.Size = new Size(410, 754);
             groupBoxInstructions.TabIndex = 2;
             groupBoxInstructions.TabStop = false;
             groupBoxInstructions.Text = "Instructions";
@@ -148,7 +148,7 @@
             textBoxInstructions.Multiline = true;
             textBoxInstructions.Name = "textBoxInstructions";
             textBoxInstructions.ReadOnly = true;
-            textBoxInstructions.Size = new Size(373, 713);
+            textBoxInstructions.Size = new Size(400, 713);
             textBoxInstructions.TabIndex = 0;
             textBoxInstructions.TabStop = false;
             textBoxInstructions.Text = resources.GetString("textBoxInstructions.Text");
@@ -157,7 +157,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1212, 807);
+            ClientSize = new Size(1247, 807);
             Controls.Add(groupBoxInstructions);
             Controls.Add(groupBoxFilteredData);
             Controls.Add(statusStrip);

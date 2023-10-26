@@ -130,13 +130,16 @@ Control + N
 Control + F
     Focus on Filtered Data List Box
 
-Control + R
-    Focus on Raw Data List Box
+Control + U
+    Focus on Unfiltered Data List Box
 
 Enter
     Select Item
 
 Control + A
-    Open Admin Form</value>
+    Open Admin Form
+
+Control + Q
+    Quit Application</value>
   </data>
 </root>

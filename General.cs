@@ -174,6 +174,7 @@ namespace staff_id_tracker
         */
         private void DisplaySelectedItem()
         {
+            // Only peform this action if there is actually an item in the list box.
             if (listBoxFilteredData.SelectedItem != null)
             {
                 // Take the selected item in the list box and convert it to a string.
@@ -201,6 +202,9 @@ namespace staff_id_tracker
         */
 
         #endregion
+        #region 4.10 StatusStrip Feedback
+
+        #endregion
         #region Keypress Filtering
         #region KeyDown Shortcuts
         // KeyDown: Multi-key Shortcuts.
@@ -225,9 +229,13 @@ namespace staff_id_tracker
                     case Keys.F:
                         listBoxFilteredData.Focus();
                         break;
-                    // "R" key: Focuses on the "Raw Data" list box.
-                    case Keys.R:
+                    // "U" key: Focuses on the "Unfiltered Data" list box.
+                    case Keys.U:
                         listBoxRawData.Focus();
+                        break;
+                    // "R" key: Focuses on the "Raw Data" list box.
+                    case Keys.Q:
+                        Application.Exit();
                         break;
                 }
             }
@@ -286,7 +294,7 @@ namespace staff_id_tracker
             if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
                 listBoxFilteredData.DataSource = null;
             // Prevents bug where focusing to list box selects item.
-            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count >1 && textBoxStaffID.Text != "")
+            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count > 1 && textBoxStaffID.Text != "")
                 FilterDisplayStaffID();
         }
         // Block unwanted characters: Staff Name.
