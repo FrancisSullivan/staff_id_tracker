@@ -250,10 +250,9 @@ namespace staff_id_tracker
             FilterKeypressesStaffID(sender, e, textBoxStaffID);
             // Only if character input is accepted.
             if (e.Handled == false) FilterDisplayStaffID();
-            // If the "Enter" key is pressed the selected item will be desplayed.
-            if (listBoxFilteredData.Focused == true && e.Equals(Keys.Enter)) DisplaySelectedItem();
             // Clear the "Staff Name" text box.
-            else textBoxStaffName.Clear();
+            if (listBoxFilteredData.Focused == false)
+                textBoxStaffName.Clear();
             // Clear the filtered list box if using backspace from index 0 or 1.
             if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
             {
@@ -281,10 +280,9 @@ namespace staff_id_tracker
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
             // Only if character input is accepted.
             if (e.Handled == false) FilterDisplayStaffName();
-            // If the "Enter" key is pressed the selected item will be desplayed.
-            if (listBoxFilteredData.Focused == true && e.Equals(Keys.Enter)) DisplaySelectedItem();
             // Clear the "Staff ID" text box.
-            else textBoxStaffID.Clear();
+            if (listBoxFilteredData.Focused == false)
+                textBoxStaffID.Clear();
             // Clear the filtered list box if using backspace from index 0 or 1.
             if (e.KeyChar == '\b' && (textBoxStaffName.SelectionStart == 0 || textBoxStaffName.SelectionStart == 1))
             {
