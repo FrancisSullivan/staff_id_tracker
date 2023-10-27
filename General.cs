@@ -92,7 +92,6 @@ namespace staff_id_tracker
             var filteredList = MasterFile.Where(kvp => kvp.Value.ToLower().Contains(staffNameTextBox)).ToList();
             listBoxFilteredData.DataSource = filteredList;
         }
-
         // Event for text being changed within the "Staff Name" text box, applies filter and display method.
         private void textBoxStaffName_TextChanged(object sender, EventArgs e)
         {
@@ -156,14 +155,17 @@ namespace staff_id_tracker
             //    "\b"    backspace and delete
             if (!Regex.IsMatch(e.KeyChar.ToString(), @"[\d\b]"))
                 e.Handled = true;
-            // Only if character input is accepted.
-            if (e.Handled == false) FilterDisplayStaffID();
             // Clear the "Staff Name" text box.
             if (listBoxFilteredData.Focused == false)
                 textBoxStaffName.Clear();
             // Clear the filtered list box if using backspace from index 0 or 1.
             if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
                 listBoxFilteredData.DataSource = null;
+        }
+        // Event for text being changed within the "Staff ID" text box, applies filter and display method.
+        private void textBoxStaffID_TextChanged(object sender, EventArgs e)
+        {
+            FilterDisplayStaffID();
         }
         #endregion
         #region 4.6 Clear and Focus: Staff Name

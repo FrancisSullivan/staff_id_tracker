@@ -103,6 +103,7 @@
             textBoxStaffID.Name = "textBoxStaffID";
             textBoxStaffID.Size = new Size(382, 39);
             textBoxStaffID.TabIndex = 1;
+            textBoxStaffID.TextChanged += textBoxStaffID_TextChanged;
             textBoxStaffID.KeyPress += textBoxStaffID_KeyPress;
             // 
             // labelStaffName
