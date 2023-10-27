@@ -88,22 +88,25 @@ namespace staff_id_tracker
         private void FilterDisplayStaffName()
         {
             // List to store filtered dictionary entries as strings.
-            List<string> filteredList = new List<string>();
+            //List<int, string> filteredList = new List<int, string>();
             // Extract staff name from text box, convert to lower case.
             string staffNameTextBox = textBoxStaffName.Text.ToLower();
             // Loop though each entry of the dictionary.
-            foreach (var entry in MasterFile)
-            {
-                // Staff name from the dictionary entry, convert to lower case.
-                string staffNameEntry = entry.Value.ToLower();
-                // Check for a match.
-                if (staffNameEntry.Contains(staffNameTextBox))
-                {
-                    // Add entry to the list box.
-                    filteredList.Add(entry.ToString());
-                }
-            }
+
+            var filteredList = MasterFile.Where(kvp => kvp.Value.ToLower().Contains(staffNameTextBox)).ToList();
+            //foreach (var entry in MasterFile)
+            //{
+            //    // Staff name from the dictionary entry, convert to lower case.
+            //    string staffNameEntry = entry.Value.ToLower();
+            //    // Check for a match.
+            //    if (staffNameEntry.Contains(staffNameTextBox))
+            //    {
+            //        // Add entry to the list box.
+            //        filteredList.Add(entry.ToString());
+            //    }
+            //}
             // Add list to list box in one go.
+            //listBoxFilteredData.DataSource = filteredList.Select(kvp => kvp.Key).ToList();
             listBoxFilteredData.DataSource = filteredList;
         }
         #endregion
@@ -277,13 +280,17 @@ namespace staff_id_tracker
         }
         #endregion
         #region KeyPress: Staff Name Text Box
+        private void textBoxStaffName_TextChanged(object sender, EventArgs e)
+        {
+            FilterDisplayStaffName();
+        }
         // KeyPress event: Staff Name.
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Block unwanted characters.
             FilterKeypressesStaffName(sender, e, textBoxStaffName);
             // Only if character input is accepted.
-            if (e.Handled == false) FilterDisplayStaffName();
+            //if (e.Handled == false) FilterDisplayStaffName();
             // Clear the "Staff ID" text box.
             if (listBoxFilteredData.Focused == false)
                 textBoxStaffID.Clear();
@@ -321,5 +328,6 @@ namespace staff_id_tracker
         #region Clipboard
 
         #endregion
+
     }
 }

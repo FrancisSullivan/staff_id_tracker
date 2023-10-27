@@ -94,6 +94,7 @@
             textBoxStaffName.Name = "textBoxStaffName";
             textBoxStaffName.Size = new Size(382, 39);
             textBoxStaffName.TabIndex = 2;
+            textBoxStaffName.TextChanged += textBoxStaffName_TextChanged;
             textBoxStaffName.KeyPress += textBoxStaffName_KeyPress;
             // 
             // textBoxStaffID
