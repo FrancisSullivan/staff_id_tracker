@@ -85,29 +85,55 @@ namespace staff_id_tracker
         Create a method to filter the Staff Name data from the Dictionary into a second filtered and selectable list box. 
         This method must use a text box input and update as each character is entered. The list box must reflect the filtered data in real time.
         */
+        // Filter search results, add results to filtered list box.
         private void FilterDisplayStaffName()
         {
-            // List to store filtered dictionary entries as strings.
-            //List<int, string> filteredList = new List<int, string>();
-            // Extract staff name from text box, convert to lower case.
             string staffNameTextBox = textBoxStaffName.Text.ToLower();
-            // Loop though each entry of the dictionary.
-
             var filteredList = MasterFile.Where(kvp => kvp.Value.ToLower().Contains(staffNameTextBox)).ToList();
-            //foreach (var entry in MasterFile)
-            //{
-            //    // Staff name from the dictionary entry, convert to lower case.
-            //    string staffNameEntry = entry.Value.ToLower();
-            //    // Check for a match.
-            //    if (staffNameEntry.Contains(staffNameTextBox))
-            //    {
-            //        // Add entry to the list box.
-            //        filteredList.Add(entry.ToString());
-            //    }
-            //}
-            // Add list to list box in one go.
-            //listBoxFilteredData.DataSource = filteredList.Select(kvp => kvp.Key).ToList();
             listBoxFilteredData.DataSource = filteredList;
+        }
+
+        // Event for text being changed within the "Staff Name" text box, applies filter and display method.
+        private void textBoxStaffName_TextChanged(object sender, EventArgs e)
+        {
+            FilterDisplayStaffName();
+        }
+        // KeyPress event for "Staff Name" text box.
+        private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Block unwanted characters.
+            FilterKeypressesStaffName(sender, e, textBoxStaffName);
+            // Clear the "Staff ID" text box.
+            if (listBoxFilteredData.Focused == false)
+                textBoxStaffID.Clear();
+            // Clear the filtered list box if using backspace from index 0 or 1.
+            if (e.KeyChar == '\b' && (textBoxStaffName.SelectionStart == 0 || textBoxStaffName.SelectionStart == 1))
+                listBoxFilteredData.DataSource = null;
+            // Prevents bug where list box will not clear when focusing on Staff ID text box.
+            if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
+                listBoxFilteredData.DataSource = null;
+            // Prevents bug where focusing to list box selects item.
+            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count > 1 && textBoxStaffID.Text != "")
+                FilterDisplayStaffID();
+        }
+        // Block unwanted characters: Staff Name.
+        private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
+        {
+            /*
+            Blocks all key entries except:
+                "\s"        space
+                "'"         apostrophe.
+                "\b"        backspace and delete.
+                "a-zA-Z"    alphabetic characters.
+            */
+            if (!Regex.IsMatch(e.KeyChar.ToString(), @"[a-zA-Z\b\s']"))
+                e.Handled = true;
+            // Disallow the use of the space in the first index of the text box.
+            if (e.KeyChar == ' ' && textBox.SelectionStart == 0)
+                e.Handled = true;
+            // Allow only one space within the text box.
+            if (e.KeyChar == ' ' && textBox.Text.Contains(" "))
+                e.Handled = true;
         }
         #endregion
         #region 4.5 Filter and Display: Staff ID
@@ -280,54 +306,11 @@ namespace staff_id_tracker
         }
         #endregion
         #region KeyPress: Staff Name Text Box
-        private void textBoxStaffName_TextChanged(object sender, EventArgs e)
-        {
-            FilterDisplayStaffName();
-        }
-        // KeyPress event: Staff Name.
-        private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Block unwanted characters.
-            FilterKeypressesStaffName(sender, e, textBoxStaffName);
-            // Only if character input is accepted.
-            //if (e.Handled == false) FilterDisplayStaffName();
-            // Clear the "Staff ID" text box.
-            if (listBoxFilteredData.Focused == false)
-                textBoxStaffID.Clear();
-            // Clear the filtered list box if using backspace from index 0 or 1.
-            if (e.KeyChar == '\b' && (textBoxStaffName.SelectionStart == 0 || textBoxStaffName.SelectionStart == 1))
-                listBoxFilteredData.DataSource = null;
-            // Prevents bug where list box will not clear when focusing on Staff ID text box.
-            if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
-                listBoxFilteredData.DataSource = null;
-            // Prevents bug where focusing to list box selects item.
-            if (listBoxFilteredData.Focused == true && listBoxFilteredData.Items.Count > 1 && textBoxStaffID.Text != "")
-                FilterDisplayStaffID();
-        }
-        // Block unwanted characters: Staff Name.
-        private void FilterKeypressesStaffName(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
-        {
-            /*
-            Blocks all key entries except:
-                "\s"        space
-                "'"         apostrophe.
-                "\b"        backspace and delete.
-                "a-zA-Z"    alphabetic characters.
-            */
-            if (!Regex.IsMatch(e.KeyChar.ToString(), @"[a-zA-Z\b\s']"))
-                e.Handled = true;
-            // Disallow the use of the space in the first index of the text box.
-            if (e.KeyChar == ' ' && textBox.SelectionStart == 0)
-                e.Handled = true;
-            // Allow only one space within the text box.
-            if (e.KeyChar == ' ' && textBox.Text.Contains(" "))
-                e.Handled = true;
-        }
+
         #endregion
         #endregion
         #region Clipboard
 
         #endregion
-
     }
 }
