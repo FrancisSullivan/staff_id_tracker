@@ -143,24 +143,27 @@ namespace staff_id_tracker
         */
         private void FilterDisplayStaffID()
         {
-            // List to store filtered dictionary entries as strings.
-            List<string> filteredList = new List<string>();
-            // Extract "Staff ID" from text box.
             string staffIDTextBox = textBoxStaffID.Text;
-            // Loop though each entry of the dictionary.
-            foreach (var entry in MasterFile)
-            {
-                // Extract "Staff ID" from the dictionary and convert it to a string.
-                string staffIDEntry = entry.Key.ToString();
-                // Check for a match.
-                if (staffIDEntry.Contains(staffIDTextBox))
-                {
-                    // Add entry to the list.
-                    filteredList.Add(entry.ToString());
-                }
-            }
-            // Add list to list box in one go.
+            var filteredList = MasterFile.Where(kvp => kvp.Key.ToString().Contains(staffIDTextBox)).ToList();
             listBoxFilteredData.DataSource = filteredList;
+        }
+        // KeyPress event: Staff ID text box.
+        private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Block unwanted characters: Staff ID text box.
+            //Blocks all key entries except:
+            //    "\d"    numeric characters
+            //    "\b"    backspace and delete
+            if (!Regex.IsMatch(e.KeyChar.ToString(), @"[\d\b]"))
+                e.Handled = true;
+            // Only if character input is accepted.
+            if (e.Handled == false) FilterDisplayStaffID();
+            // Clear the "Staff Name" text box.
+            if (listBoxFilteredData.Focused == false)
+                textBoxStaffName.Clear();
+            // Clear the filtered list box if using backspace from index 0 or 1.
+            if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
+                listBoxFilteredData.DataSource = null;
         }
         #endregion
         #region 4.6 Clear and Focus: Staff Name
@@ -234,7 +237,6 @@ namespace staff_id_tracker
         #region 4.10 StatusStrip Feedback
 
         #endregion
-        #region Keypress Filtering
         #region KeyDown Shortcuts
         // KeyDown: Multi-key Shortcuts.
         // "KeyPreview" must be set to true for this to work.
@@ -277,37 +279,6 @@ namespace staff_id_tracker
                 DisplaySelectedItem();
             }
         }
-        #endregion
-        #region KeyPress: Staff ID Text Box
-        // KeyPress event: Staff ID text box.
-        private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Block unwanted characters.
-            FilterKeypressesStaffID(sender, e, textBoxStaffID);
-            // Only if character input is accepted.
-            if (e.Handled == false) FilterDisplayStaffID();
-            // Clear the "Staff Name" text box.
-            if (listBoxFilteredData.Focused == false)
-                textBoxStaffName.Clear();
-            // Clear the filtered list box if using backspace from index 0 or 1.
-            if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
-                listBoxFilteredData.DataSource = null;
-        }
-        // Block unwanted characters: Staff ID text box.
-        private void FilterKeypressesStaffID(object sender, KeyPressEventArgs e, System.Windows.Forms.TextBox textBox)
-        {
-            /*
-            Blocks all key entries except:
-                "\d"    numeric characters
-                "\b"    backspace and delete
-            */
-            if (!Regex.IsMatch(e.KeyChar.ToString(), @"[\d\b]"))
-                e.Handled = true;
-        }
-        #endregion
-        #region KeyPress: Staff Name Text Box
-
-        #endregion
         #endregion
         #region Clipboard
 
