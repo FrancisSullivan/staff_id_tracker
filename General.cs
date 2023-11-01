@@ -95,7 +95,11 @@ namespace staff_id_tracker
         // Event for text being changed within the "Staff Name" text box, applies filter and display method.
         private void textBoxStaffName_TextChanged(object sender, EventArgs e)
         {
+            // Display filtered list box.
             FilterDisplayStaffName();
+            // Clears filtered list box if text box is blank.
+            if (textBoxStaffName.Text == "")
+                listBoxFilteredData.DataSource = null;
         }
         // KeyPress event for "Staff Name" text box.
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
@@ -105,9 +109,6 @@ namespace staff_id_tracker
             // Clear the "Staff ID" text box.
             if (listBoxFilteredData.Focused == false)
                 textBoxStaffID.Clear();
-            // Clear the filtered list box if using backspace from index 0 or 1.
-            if (e.KeyChar == '\b' && (textBoxStaffName.SelectionStart == 0 || textBoxStaffName.SelectionStart == 1))
-                listBoxFilteredData.DataSource = null;
             // Prevents bug where list box will not clear when focusing on Staff ID text box.
             if (textBoxStaffID.Focused == true && textBoxStaffID.Text == "")
                 listBoxFilteredData.DataSource = null;
@@ -146,6 +147,15 @@ namespace staff_id_tracker
             var filteredList = MasterFile.Where(kvp => kvp.Key.ToString().Contains(staffIDTextBox)).ToList();
             listBoxFilteredData.DataSource = filteredList;
         }
+        // Event for text being changed within the "Staff ID" text box, applies filter and display method.
+        private void textBoxStaffID_TextChanged(object sender, EventArgs e)
+        {
+            // Display filtered list box.
+            FilterDisplayStaffID();
+            // Clears filtered list box if text box is blank.
+            if (textBoxStaffID.Text == "")
+                listBoxFilteredData.DataSource = null;
+        }
         // KeyPress event: Staff ID text box.
         private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -158,14 +168,6 @@ namespace staff_id_tracker
             // Clear the "Staff Name" text box.
             if (listBoxFilteredData.Focused == false)
                 textBoxStaffName.Clear();
-            // Clear the filtered list box if using backspace from index 0 or 1.
-            if (e.KeyChar == '\b' && (textBoxStaffID.SelectionStart == 0 || textBoxStaffID.SelectionStart == 1))
-                listBoxFilteredData.DataSource = null;
-        }
-        // Event for text being changed within the "Staff ID" text box, applies filter and display method.
-        private void textBoxStaffID_TextChanged(object sender, EventArgs e)
-        {
-            FilterDisplayStaffID();
         }
         #endregion
         #region 4.6 Clear and Focus: Staff Name
