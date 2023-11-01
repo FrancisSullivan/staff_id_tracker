@@ -181,8 +181,7 @@ namespace staff_id_tracker
             // Focus the cursor to the "Staff Name" text box.
             textBoxStaffName.Focus();
             // Clear the filtered list box.
-            List<string> blankList = new List<string>();
-            listBoxFilteredData.DataSource = blankList;
+            listBoxFilteredData.DataSource = null;
         }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
