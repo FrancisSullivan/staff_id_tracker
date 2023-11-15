@@ -16,6 +16,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Microsoft.VisualBasic;
 using System.Reflection.Metadata;
 #endregion
+//Name: Francis Sullivan.
+//Student ID: 30034007.
+//Complex Data Structures AT3.
 namespace staff_id_tracker
 {
     public partial class General : Form
@@ -237,7 +240,7 @@ namespace staff_id_tracker
         */
 
         #endregion
-        #region 4.10 StatusStrip Feedback
+        #region ->4.10 StatusStrip Feedback
 
         #endregion
         #region KeyDown Shortcuts
@@ -283,7 +286,7 @@ namespace staff_id_tracker
             }
         }
         #endregion
-        #region Clipboard
+        #region 
 
         #endregion
     }
