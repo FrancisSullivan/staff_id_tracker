@@ -121,25 +121,22 @@
     <value>17, 17</value>
   </metadata>
   <data name="textBoxInstructions.Text" xml:space="preserve">
-    <value>Control + I
-    Focus on Staff ID Text Box
+    <value>Alt + I
+    Focus and Clear on Staff ID
 
-Control + N
-    Focus on Staff Name Text Box
+Alt + N
+    Focus and Clear on Staff Name
 
-Control + F
-    Focus on Filtered Data List Box
-
-Control + U
-    Focus on Unfiltered Data List Box
+Alt + F
+    Focus on Filtered Data
 
 Enter
     Select Item
 
-Control + A
+Alt + A
     Open Admin Form
 
-Control + Q
+Alt + Q
     Quit Application</value>
   </data>
 </root>

@@ -24,11 +24,19 @@ namespace staff_id_tracker
     public partial class General : Form
     {
         #region Initialisation
+        // CHANGE LATER
+        TextWriterTraceListener traceListener = new TextWriterTraceListener("DictionaryDictionary.txt", "traceListener");
         public General()
         {
             InitializeComponent();
+            var sw = Stopwatch.StartNew();
             LoadDictionary();
+            var swSave = sw.ElapsedTicks.ToString();
+            var resultUpdate = "Load dictionary time in ticks: " + swSave;
+            traceListener.WriteLine(resultUpdate);
+
         }
+
         #endregion
         #region 4.1 Dictionary Data Structure
         /*
@@ -36,11 +44,11 @@ namespace staff_id_tracker
         */
         public static Dictionary<int, string> MasterFile = new Dictionary<int, string>();
         #endregion
-        #region 4.2 Load Data from File to Dictionary
+        #region 4.2 Load Data from CSV File to Dictionary
         /*
         Create a method that will read the data from the .csv file into the Dictionary data structure when the GUI loads.
         */
-        private void LoadDictionary()
+        public void LoadDictionary()
         {
             // Clear the dictionary of any existing data.
             MasterFile.Clear();
@@ -62,6 +70,9 @@ namespace staff_id_tracker
             }
             // Update the raw data list box.
             DisplayListBoxRawData();
+            textBoxStaffName.Clear();
+            textBoxStaffID.Clear();
+            toolStripStatusLabelGeneral.Text = "";
         }
         #endregion
         #region 4.3 Display Raw Dictionary Data
@@ -70,8 +81,6 @@ namespace staff_id_tracker
         */
         private void DisplayListBoxRawData()
         {
-            // Clear existing list box data.
-            listBoxRawData.Items.Clear();
             List<string> rawList = new List<string>();
             // Loop though each entry of the dictionary.
             foreach (var entry in MasterFile)
@@ -98,11 +107,17 @@ namespace staff_id_tracker
         // Event for text being changed within the "Staff Name" text box, applies filter and display method.
         private void textBoxStaffName_TextChanged(object sender, EventArgs e)
         {
+            // Update Status Strip.
+            toolStripStatusLabelGeneral.Text = "";
             // Display filtered list box.
             FilterDisplayStaffName();
+            toolStripStatusLabelGeneral.Text = "Press 'Enter' to select highlighted item.";
             // Clears filtered list box if text box is blank.
             if (textBoxStaffName.Text == "")
+            {
                 listBoxFilteredData.DataSource = null;
+                toolStripStatusLabelGeneral.Text = "";
+            }
         }
         // KeyPress event for "Staff Name" text box.
         private void textBoxStaffName_KeyPress(object sender, KeyPressEventArgs e)
@@ -153,11 +168,17 @@ namespace staff_id_tracker
         // Event for text being changed within the "Staff ID" text box, applies filter and display method.
         private void textBoxStaffID_TextChanged(object sender, EventArgs e)
         {
+            // Update Status Strip.
+            toolStripStatusLabelGeneral.Text = "";
             // Display filtered list box.
             FilterDisplayStaffID();
+            toolStripStatusLabelGeneral.Text = "Press 'Enter' to select highlighted item.";
             // Clears filtered list box if text box is blank.
             if (textBoxStaffID.Text == "")
+            {
                 listBoxFilteredData.DataSource = null;
+                toolStripStatusLabelGeneral.Text = "";
+            }
         }
         // KeyPress event: Staff ID text box.
         private void textBoxStaffID_KeyPress(object sender, KeyPressEventArgs e)
@@ -187,6 +208,7 @@ namespace staff_id_tracker
             textBoxStaffName.Focus();
             // Clear the filtered list box.
             listBoxFilteredData.DataSource = null;
+            toolStripStatusLabelGeneral.Text = "";
         }
         #endregion
         #region 4.7 Clear and Focus: Staff ID
@@ -203,6 +225,7 @@ namespace staff_id_tracker
             textBoxStaffID.Focus();
             // Clear the filtered list box.
             listBoxFilteredData.DataSource = null;
+            toolStripStatusLabelGeneral.Text = "";
         }
         #endregion
         #region 4.8 Display Selected Staff
@@ -229,29 +252,46 @@ namespace staff_id_tracker
                 textBoxStaffName.Text = staffName;
                 // Reload the filtered items list box to display only the selected item.
                 FilterDisplayStaffID();
+                // Update Status Strip.
+                toolStripStatusLabelGeneral.Text = "Item Selected. 'Alt + A' to open Admin Form to edit this entry";
             }
         }
         #endregion
         #region 4.9 Open Admin Form
-        /*
-        Create a method that will open the Admin GUI when the Alt + A keys are pressed. Ensure the General GUI sends the currently selected Staff ID and Staff 
-        Name to the Admin GUI for Update and Delete purposes and is opened as modal. Create modified logic to open the Admin GUI to Create a new user when the 
-        Staff ID 77 and the Staff Name is empty. Read the appropriate criteria in the Admin GUI for further information.
-        */
+        //Create a method that will open the Admin GUI when the Alt + A keys are pressed. 
+        //Ensure the General GUI sends the currently selected Staff ID and Staff 
+        //Name to the Admin GUI for Update and Delete purposes and is opened as modal. 
+        //Create modified logic to open the Admin GUI to Create a new user when the 
+        //Staff ID 77 and the Staff Name is empty. Read the appropriate criteria in the 
+        //Admin GUI for further information.
+        private void OpenAdminForm()
+        {
+            if ((textBoxStaffID.Text != "" && textBoxStaffName.Text != "")
+                ||
+                textBoxStaffID.Text == "77"
+                )
+            {
+                string id = textBoxStaffID.Text;
+                string name = textBoxStaffName.Text;
+                Admin admin = new Admin(this, id, name, traceListener);
+                DialogResult result = admin.ShowDialog();
+            }
+            else
+                toolStripStatusLabel.Text = "Please select and item, or type '77' in ID box before opening Admin Form.";
+        }
+        #endregion
+        #region 4.10 StatusStrip Feedback
 
         #endregion
-        #region ->4.10 StatusStrip Feedback
-
-        #endregion
-        #region KeyDown Shortcuts
+        #region Keyboard Shortcuts
         // KeyDown: Multi-key Shortcuts.
         // "KeyPreview" must be set to true for this to work.
         private void General_KeyDown(object sender, KeyEventArgs e)
         {
-            // Checks for the "alt" key.
-            if (e.Modifiers == Keys.Control)
+            // Checks for the "Alt" key.
+            if (e.Modifiers == Keys.Alt)
             {
-                // Key other than "alt" that is held down.
+                // Key other than "Alt" that is held down.
                 switch (e.KeyCode)
                 {
                     // "I" key: Refreshes ID text box.
@@ -266,14 +306,22 @@ namespace staff_id_tracker
                     case Keys.F:
                         listBoxFilteredData.Focus();
                         break;
-                    // "U" key: Focuses on the "Unfiltered Data" list box.
-                    case Keys.U:
+                    // "R" key: Focuses on the "Raw Data" list box.
+                    case Keys.R:
                         listBoxRawData.Focus();
                         break;
-                    // "R" key: Focuses on the "Raw Data" list box.
+                    // "Q" key: Quit.
                     case Keys.Q:
+                        traceListener.Close();
                         Application.Exit();
                         break;
+                    // "A" key: Focuses on the "Raw Data" list box.
+                    case Keys.A:
+                        OpenAdminForm();
+                        break;
+
+                        //case Keys.L:
+                        //    break;
                 }
             }
             // Checks for "Enter" key.
@@ -285,9 +333,6 @@ namespace staff_id_tracker
                 DisplaySelectedItem();
             }
         }
-        #endregion
-        #region 
-
         #endregion
     }
 }

@@ -29,14 +29,17 @@
         private void InitializeComponent()
         {
             groupBoxInputs = new GroupBox();
-            groupBoxInstructions = new GroupBox();
-            labelStaffID = new Label();
-            labelStaffName = new Label();
-            textBoxStaffName = new TextBox();
             textBoxStaffID = new TextBox();
+            textBoxStaffName = new TextBox();
+            labelStaffName = new Label();
+            labelStaffID = new Label();
+            groupBoxInstructions = new GroupBox();
             textBoxInstructions = new TextBox();
+            statusStrip = new StatusStrip();
+            toolStripStatusLabel = new ToolStripStatusLabel();
             groupBoxInputs.SuspendLayout();
             groupBoxInstructions.SuspendLayout();
+            statusStrip.SuspendLayout();
             SuspendLayout();
             // 
             // groupBoxInputs
@@ -52,24 +55,21 @@
             groupBoxInputs.TabStop = false;
             groupBoxInputs.Text = "Inputs";
             // 
-            // groupBoxInstructions
+            // textBoxStaffID
             // 
-            groupBoxInstructions.Controls.Add(textBoxInstructions);
-            groupBoxInstructions.Location = new Point(12, 211);
-            groupBoxInstructions.Name = "groupBoxInstructions";
-            groupBoxInstructions.Size = new Size(345, 354);
-            groupBoxInstructions.TabIndex = 0;
-            groupBoxInstructions.TabStop = false;
-            groupBoxInstructions.Text = "Instructions";
+            textBoxStaffID.Location = new Point(11, 70);
+            textBoxStaffID.Name = "textBoxStaffID";
+            textBoxStaffID.ReadOnly = true;
+            textBoxStaffID.Size = new Size(324, 39);
+            textBoxStaffID.TabIndex = 0;
+            textBoxStaffID.TabStop = false;
             // 
-            // labelStaffID
+            // textBoxStaffName
             // 
-            labelStaffID.AutoSize = true;
-            labelStaffID.Location = new Point(11, 35);
-            labelStaffID.Name = "labelStaffID";
-            labelStaffID.Size = new Size(92, 32);
-            labelStaffID.TabIndex = 0;
-            labelStaffID.Text = "Staff ID";
+            textBoxStaffName.Location = new Point(11, 147);
+            textBoxStaffName.Name = "textBoxStaffName";
+            textBoxStaffName.Size = new Size(324, 39);
+            textBoxStaffName.TabIndex = 1;
             // 
             // labelStaffName
             // 
@@ -80,44 +80,72 @@
             labelStaffName.TabIndex = 1;
             labelStaffName.Text = "Staff Name";
             // 
-            // textBoxStaffName
+            // labelStaffID
             // 
-            textBoxStaffName.Location = new Point(11, 147);
-            textBoxStaffName.Name = "textBoxStaffName";
-            textBoxStaffName.Size = new Size(324, 39);
-            textBoxStaffName.TabIndex = 2;
+            labelStaffID.AutoSize = true;
+            labelStaffID.Location = new Point(11, 35);
+            labelStaffID.Name = "labelStaffID";
+            labelStaffID.Size = new Size(92, 32);
+            labelStaffID.TabIndex = 0;
+            labelStaffID.Text = "Staff ID";
             // 
-            // textBoxStaffID
+            // groupBoxInstructions
             // 
-            textBoxStaffID.Location = new Point(11, 70);
-            textBoxStaffID.Name = "textBoxStaffID";
-            textBoxStaffID.Size = new Size(324, 39);
-            textBoxStaffID.TabIndex = 3;
+            groupBoxInstructions.Controls.Add(textBoxInstructions);
+            groupBoxInstructions.Location = new Point(363, 24);
+            groupBoxInstructions.Name = "groupBoxInstructions";
+            groupBoxInstructions.Size = new Size(333, 354);
+            groupBoxInstructions.TabIndex = 0;
+            groupBoxInstructions.TabStop = false;
+            groupBoxInstructions.Text = "Instructions";
             // 
             // textBoxInstructions
             // 
-            textBoxInstructions.Location = new Point(0, 38);
+            textBoxInstructions.Location = new Point(6, 38);
             textBoxInstructions.Multiline = true;
             textBoxInstructions.Name = "textBoxInstructions";
             textBoxInstructions.ReadOnly = true;
-            textBoxInstructions.Size = new Size(325, 307);
+            textBoxInstructions.Size = new Size(319, 307);
             textBoxInstructions.TabIndex = 0;
-            textBoxInstructions.Text = "Instruction 1\r\nInstruction 2";
+            textBoxInstructions.TabStop = false;
+            textBoxInstructions.Text = "Alt + C\r\n    Create New Entry\r\nAlt + U\r\n    Update Existing Entry\r\nAlt + D\r\n    Delete Entry\r\nAlt + L\r\n    Close Admin Form";
+            // 
+            // statusStrip
+            // 
+            statusStrip.ImageScalingSize = new Size(32, 32);
+            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
+            statusStrip.Location = new Point(0, 388);
+            statusStrip.Name = "statusStrip";
+            statusStrip.Size = new Size(704, 22);
+            statusStrip.TabIndex = 2;
+            statusStrip.Text = "statusStrip";
+            // 
+            // toolStripStatusLabel
+            // 
+            toolStripStatusLabel.Name = "toolStripStatusLabel";
+            toolStripStatusLabel.Size = new Size(0, 12);
             // 
             // Admin
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(391, 583);
+            ClientSize = new Size(704, 410);
+            ControlBox = false;
+            Controls.Add(statusStrip);
             Controls.Add(groupBoxInstructions);
             Controls.Add(groupBoxInputs);
+            KeyPreview = true;
             Name = "Admin";
             Text = "Admin";
+            KeyDown += Admin_KeyDown;
             groupBoxInputs.ResumeLayout(false);
             groupBoxInputs.PerformLayout();
             groupBoxInstructions.ResumeLayout(false);
             groupBoxInstructions.PerformLayout();
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -129,5 +157,7 @@
         private Label labelStaffName;
         private Label labelStaffID;
         private TextBox textBoxInstructions;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel toolStripStatusLabel;
     }
 }

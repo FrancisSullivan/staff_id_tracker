@@ -32,6 +32,8 @@
             groupBoxRawData = new GroupBox();
             listBoxRawData = new ListBox();
             statusStrip = new StatusStrip();
+            toolStripStatusLabel = new ToolStripStatusLabel();
+            toolStripStatusLabelGeneral = new ToolStripStatusLabel();
             groupBoxFilteredData = new GroupBox();
             textBoxStaffName = new TextBox();
             textBoxStaffID = new TextBox();
@@ -41,6 +43,7 @@
             groupBoxInstructions = new GroupBox();
             textBoxInstructions = new TextBox();
             groupBoxRawData.SuspendLayout();
+            statusStrip.SuspendLayout();
             groupBoxFilteredData.SuspendLayout();
             groupBoxInstructions.SuspendLayout();
             SuspendLayout();
@@ -63,16 +66,28 @@
             listBoxRawData.Name = "listBoxRawData";
             listBoxRawData.SelectionMode = SelectionMode.None;
             listBoxRawData.Size = new Size(379, 708);
-            listBoxRawData.TabIndex = 0;
+            listBoxRawData.TabIndex = 2;
+            listBoxRawData.TabStop = false;
             // 
             // statusStrip
             // 
             statusStrip.ImageScalingSize = new Size(32, 32);
+            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel, toolStripStatusLabelGeneral });
             statusStrip.Location = new Point(0, 785);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(1247, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
+            // 
+            // toolStripStatusLabel
+            // 
+            toolStripStatusLabel.Name = "toolStripStatusLabel";
+            toolStripStatusLabel.Size = new Size(0, 12);
+            // 
+            // toolStripStatusLabelGeneral
+            // 
+            toolStripStatusLabelGeneral.Name = "toolStripStatusLabelGeneral";
+            toolStripStatusLabelGeneral.Size = new Size(0, 12);
             // 
             // groupBoxFilteredData
             // 
@@ -93,7 +108,7 @@
             textBoxStaffName.Location = new Point(6, 147);
             textBoxStaffName.Name = "textBoxStaffName";
             textBoxStaffName.Size = new Size(382, 39);
-            textBoxStaffName.TabIndex = 2;
+            textBoxStaffName.TabIndex = 0;
             textBoxStaffName.TextChanged += textBoxStaffName_TextChanged;
             textBoxStaffName.KeyPress += textBoxStaffName_KeyPress;
             // 
@@ -102,7 +117,7 @@
             textBoxStaffID.Location = new Point(6, 70);
             textBoxStaffID.Name = "textBoxStaffID";
             textBoxStaffID.Size = new Size(382, 39);
-            textBoxStaffID.TabIndex = 1;
+            textBoxStaffID.TabIndex = 2;
             textBoxStaffID.TextChanged += textBoxStaffID_TextChanged;
             textBoxStaffID.KeyPress += textBoxStaffID_KeyPress;
             // 
@@ -131,7 +146,7 @@
             listBoxFilteredData.Location = new Point(6, 200);
             listBoxFilteredData.Name = "listBoxFilteredData";
             listBoxFilteredData.Size = new Size(382, 548);
-            listBoxFilteredData.TabIndex = 3;
+            listBoxFilteredData.TabIndex = 1;
             // 
             // groupBoxInstructions
             // 
@@ -160,6 +175,7 @@
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1247, 807);
+            ControlBox = false;
             Controls.Add(groupBoxInstructions);
             Controls.Add(groupBoxFilteredData);
             Controls.Add(statusStrip);
@@ -169,6 +185,8 @@
             Text = "General";
             KeyDown += General_KeyDown;
             groupBoxRawData.ResumeLayout(false);
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
             groupBoxFilteredData.ResumeLayout(false);
             groupBoxFilteredData.PerformLayout();
             groupBoxInstructions.ResumeLayout(false);
@@ -190,5 +208,7 @@
         private Label labelStaffName;
         private Label labelStaffID;
         private TextBox textBoxInstructions;
+        private ToolStripStatusLabel toolStripStatusLabel;
+        private ToolStripStatusLabel toolStripStatusLabelGeneral;
     }
 }
