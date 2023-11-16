@@ -55,8 +55,14 @@ namespace staff_id_tracker
             // Check if ID is already in dictionary.
             if (!General.MasterFile.ContainsKey(staffID))
             {
+                // Start Stopwatch.
+                var sw = Stopwatch.StartNew();
                 // Add ID and Name as a new dictionary entry.
                 General.MasterFile.Add(int.Parse(textBoxStaffID.Text), textBoxStaffName.Text);
+                // Take measurement from Stopwatch, save as string.
+                string swElapsedTicks = sw.ElapsedTicks.ToString();
+                // Write the elapsed time to the log file.
+                traceListenerInstance.WriteLine("Create: " + swElapsedTicks + " ticks.");
                 // Update Tool Strip.
                 toolStripStatusLabel.Text = "New item Added";
             }
@@ -107,11 +113,12 @@ namespace staff_id_tracker
                 // Take measurement from Stopwatch, save as string.
                 string swElapsedTicks = sw.ElapsedTicks.ToString();
                 // Write the elapsed time to the log file.
-                traceListenerInstance.WriteLine("Update time in ticks: " + swElapsedTicks);
+                traceListenerInstance.WriteLine("Update: " + swElapsedTicks + " ticks.");
                 // Update Tool Strip.
                 toolStripStatusLabel.Text = "Item Updated";
             }
             else
+                // Update Tool Strip.
                 toolStripStatusLabel.Text = "Item is not in dictionary, please create item first.";
         }
         #endregion
@@ -119,8 +126,17 @@ namespace staff_id_tracker
         //Create a method that will Remove the current Staff ID and clear the text boxes.
         private void DeleteEntry()
         {
+            // Start Stopwatch.
+            var sw = Stopwatch.StartNew();
+            // Delete entry from dictionary.
             General.MasterFile.Remove(int.Parse(textBoxStaffID.Text));
+            // Take measurement from Stopwatch, save as string.
+            string swElapsedTicks = sw.ElapsedTicks.ToString();
+            // Write the elapsed time to the log file.
+            traceListenerInstance.WriteLine("Delete: " + swElapsedTicks + " ticks.");
+            // Clear textboxes and print message in toolstrip.
             ConfirmAndClear("Item Deleted");
+            // Disable textboxes.
             textBoxStaffName.Enabled = false;
         }
         #endregion
@@ -129,11 +145,14 @@ namespace staff_id_tracker
         //called as the Admin GUI closes.
         private void SaveChanges()
         {
+            // Start Stopwatch.
             var sw = Stopwatch.StartNew();
+            // Write to CSV.
             File.WriteAllLines("MalinStaffNamesV2.csv", General.MasterFile.Select(kvp => $"{kvp.Key},{kvp.Value}"));
-            var swSave = sw.ElapsedTicks.ToString();
-            var resultUpdate = "Write to CSV time in ticks: " + swSave;
-            traceListenerInstance.WriteLine(resultUpdate);
+            // Take measurement from Stopwatch, save as string.
+            string swElapsedTicks = sw.ElapsedTicks.ToString();
+            // Write the elapsed time to the log file.
+            traceListenerInstance.WriteLine("Write to CSV: " + swElapsedTicks + " ticks.");
         }
         #endregion
         #region 5.7 Close Admin Form
@@ -151,7 +170,9 @@ namespace staff_id_tracker
         //Make all methods private and ensure the Dictionary is updated. 
         private void ConfirmAndClear(string statusMessageParam)
         {
+            // Update Tool Strip.
             toolStripStatusLabel.Text = statusMessageParam;
+            // Clear textboxes.
             textBoxStaffID.Text = "";
             textBoxStaffName.Text = "";
         }

@@ -24,17 +24,19 @@ namespace staff_id_tracker
     public partial class General : Form
     {
         #region Initialisation
-        // CHANGE LATER
-        TextWriterTraceListener traceListener = new TextWriterTraceListener("DictionaryDictionary.txt", "traceListener");
+        // Tool used for testing performance.
+        TextWriterTraceListener traceListener = new TextWriterTraceListener("Dictionary.txt", "traceListener");
         public General()
         {
             InitializeComponent();
+            // Start Stopwatch.
             var sw = Stopwatch.StartNew();
+            // Load dictionary from CSV.
             LoadDictionary();
-            var swSave = sw.ElapsedTicks.ToString();
-            var resultUpdate = "Load dictionary time in ticks: " + swSave;
-            traceListener.WriteLine(resultUpdate);
-
+            // Take measurement from Stopwatch, save as string.
+            string swElapsedTicks = sw.ElapsedTicks.ToString();
+            // Write the elapsed time to the log file.
+            traceListener.WriteLine("\nLoad from CSV: " + swElapsedTicks + " ticks.");
         }
 
         #endregion
